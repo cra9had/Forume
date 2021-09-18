@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
-from django.http import HttpResponseNotFound, HttpResponseRedirect
-from django.contrib import messages
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from articles.models import Article, Ip
+from django.views.decorators.csrf import csrf_exempt
 
 
 def get_client_ip(request):
@@ -14,32 +14,41 @@ def get_client_ip(request):
     return ip
 
 
+@csrf_exempt
 def auth(request):
-    if request.method == "POST":
-        username = request.POST["login"]
-        password = request.POST["password"]
+    if request.method == "POST" and request.is_ajax():
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        remember_me = request.POST.get("remember")
+        if not remember_me == "true":
+            request.session.set_expiry(0)
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-        return HttpResponseRedirect("/")
+            return JsonResponse({"status": "success"})
+        else:
+            return JsonResponse({"status": "error", "error_text": "Логин или пароль неверны."})
+    else:
+        return HttpResponseNotFound("<h1>Page does not exists ):</h1>")
 
 
 def post_like(request, id):
-    try:
-        article = Article.objects.get(id=id)
-    except Article.DoesNotExist:
-        return HttpResponseNotFound("<h1>Article does not exist yet ):</h1>")
+    if request.is_ajax():
+        try:
+            article = Article.objects.get(id=id)
+        except Article.DoesNotExist:
+            return JsonResponse({"status": "error", "error_text": "Article does not exist yet...", "error_code": 404})
 
-    user = request.user
-    if user.is_authenticated:
-        like = article.like_set.filter(user=user)
-        if not like.exists():
-            article.like_set.create(user=user, article=article)
+        user = request.user
+        if user.is_authenticated:
+            like = article.like_set.filter(user=user)
+            if not like.exists():
+                article.like_set.create(user=user, article=article)
+            else:
+                like.delete()
+            return JsonResponse({"status": "success", "count": article.like_set.count()})
         else:
-            like.delete()
-        return HttpResponseRedirect(f"/article/{id}")
-    else:
-        return HttpResponseRedirect("/")
+            return JsonResponse({"status": "error", "error_text": "Auth is required", "error_code": 405})
 
 
 def post_view(request, id):
@@ -55,6 +64,7 @@ def post_view(request, id):
     else:
         Ip.objects.create(ip=ip)
         article.views.add(Ip.objects.get(ip=ip))
+        article.views.add(Ip.objects.get(ip=ip))
 
     views = article.views.count()
     likes = article.like_set.count()
@@ -62,7 +72,8 @@ def post_view(request, id):
     context = {
         'article': article,
         'views': views,
-        'likes': likes
+        'likes': likes,
+        'is_auth': request.user.is_authenticated
     }
     return render(request, 'article.html', context)
 
@@ -70,5 +81,4 @@ def post_view(request, id):
 def index(request):
     last_articles = Article.objects.order_by("-id")
     is_auth = request.user.is_authenticated
-    print(is_auth)
     return render(request, "index.html", context={"articles": last_articles, "is_auth": is_auth})

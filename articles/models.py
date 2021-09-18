@@ -1,10 +1,9 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 
-class Ip(models.Model): # наша таблица где будут айпи адреса
+class Ip(models.Model):
     ip = models.CharField(max_length=100)
 
     def __str__(self):
@@ -15,7 +14,9 @@ class Article(models.Model):
     article_title = models.CharField(name="Title", max_length=50)
     article_subtitle = models.CharField(name="Subtitle", max_length=50)
     article_text = models.TextField(name="Text")
+    short_text = models.CharField(name="ShortText", max_length=140)
     views = models.ManyToManyField(Ip, related_name="Views", blank=True)
+    pub_date = models.DateTimeField(name="PublicDate", default=timezone.now())
 
 
 class Like(models.Model):

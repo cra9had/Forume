@@ -11,7 +11,7 @@
 	<header class="header">
 		<div class="container">
 			<div class="header-inside">
-				<a href="#" class="header-logo">blogname</a>
+				<a href="{% url 'articles:index' %}" class="header-logo">blogname</a>
 				<nav class="nav">
 					<ul class="nav-group">
 						<li class="nav-list"><a href="#" class="nav-link">Главная</a></li>
@@ -20,7 +20,14 @@
 					</ul>
 				</nav>
 				<div class="sign-wrap">
+					{% if is_auth == True %}
+					<form action="{% url 'articles:logout' %}" method="post">
+						{% csrf_token %}
+						<button class="login-btn">Выйти</button>
+					</form>
+					{% else %}
 					<button class="login-btn" id="login">Войти</button>
+					{% endif %}
 					<button class="registr-btn" id="registr">Регистрация</button>
 				</div>
 				<a href="#" class="menu-btn">
@@ -58,7 +65,14 @@
 			<li class="mobile-list"><a href="#contacts" class="mobile-link">Контакты</a></li>
 		</ul>
 		<div class="mobile-sign-wrap">
-			<button class="mobile-login-btn" id="mobile-login">Войти</button>
+			{% if is_auth == True %}
+					<form action="{% url 'articles:logout' %}" method="post">
+						{% csrf_token %}
+						<button class="mobile-login-btn">Выйти</button>
+					</form>
+			{% else %}
+					<button class="mobile-login-btn" id="mobile-login">Войти</button>
+			{% endif %}
 			<button class="mobile-registr-btn" id="mobile-registr">Регистрация</button>
 		</div>
 	</section>
@@ -66,8 +80,6 @@
 		<div class="modal-dialog">
 			<button class="modal-close" type="button"><span class="modal-close-btn"></span></button>
 			<h2>Личный кабинет</h2>
-			<form class="login-form" action="{% url 'articles:auth' %}" method="post">
-				{% csrf_token %}
 				<p>
 					<label class="visually-hidden" for="user-login">Логин</label>
 					<input class="login-icon-user" id="user-login" type="text" name="login">
@@ -78,14 +90,13 @@
 				</p>
 				<p class="login-password-info">
 					<label class="login-checkbox">
-						<input type="checkbox" name="remember" class="visually-hidden">
+						<input type="checkbox" name="remember" id="remember" class="visually-hidden">
 						<span class="checkbox-indicator"></span>
 						Запомните меня
 					</label>
 					<a href="#" class="restore">Я забыл пароль!</a>
 				</p>
 				<button class="modal-login-btn" type="submit">Войти</button>
-			</form>
 		</div>
 	</section>
 	<div class="overlay"></div>
@@ -93,6 +104,8 @@
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{% static 'js/smooth_scroll.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/_ajax.js' %}"></script>
+
 	<!-- <script type="text/javascript" src="js/sign.js"></script> -->
 	<script type="text/javascript" src="{% static 'js/burger.js' %}"></script>
 </body>

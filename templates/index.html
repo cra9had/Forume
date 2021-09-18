@@ -46,9 +46,9 @@
 			{% if articles %}
 			{% for article in articles %}
 			<section class="blog">
-				<a class="blog-title" href="{% url 'articles:id' article.id %}">{{ article.Title }}</a>
+				<h1 class="blog-title">{{ article.Title }}</h1>
 				<p class="blog-subtitle">{{ article.Subtitle }}</p>
-				<p class="blog-content">{{ article.Text }}</p>
+				<p class="blog-content">{{ article.ShortText }}... <a href="{% url 'articles:id' article.id %}">Читать ещё ></a></p>
 			</section>
 			{% endfor %}
 			{% endif %}
@@ -63,7 +63,10 @@
 		</ul>
 		<div class="mobile-sign-wrap">
 			{% if is_auth == True %}
-					<button class="mobile-login-btn">Выйти</button>
+					<form action="{% url 'articles:logout' %}" method="post">
+						{% csrf_token %}
+						<button class="mobile-login-btn">Выйти</button>
+					</form>
 			{% else %}
 					<button class="mobile-login-btn" id="mobile-login">Войти</button>
 			{% endif %}
@@ -74,7 +77,7 @@
 		<div class="modal-dialog">
 			<button class="modal-close" type="button"><span class="modal-close-btn"></span></button>
 			<h2>Личный кабинет</h2>
-			<form class="login-form" action="{% url 'articles:auth' %}" method="post">
+<!--			<form class="login-form" action="{% url 'articles:auth' %}" method="post">-->
 				{% csrf_token %}
 				<p>
 					<label class="visually-hidden" for="user-login">Логин</label>
@@ -87,19 +90,20 @@
 				</p>
 				<p class="login-password-info">
 					<label class="login-checkbox">
-						<input type="checkbox" name="remember" class="visually-hidden">
+						<input type="checkbox" name="remember" id="remember" class="visually-hidden">
 						<span class="checkbox-indicator"></span>
 						Запомните меня
 					</label>
 					<a href="#" class="restore">Я забыл пароль!</a>
 				</p>
 				<button class="modal-login-btn" type="submit">Войти</button>
-			</form>
+<!--			</form>-->
 		</div>
 	</section>
 	<div class="overlay"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{% static 'js/smooth_scroll.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/_ajax.js' %}"></script>
 	<!-- <script type="text/javascript" src="js/sign.js"></script> -->
 	<script type="text/javascript" src="{% static 'js/burger.js' %}"></script>
 </body>
