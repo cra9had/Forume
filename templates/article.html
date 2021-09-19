@@ -43,7 +43,11 @@
 				<p class="article-content">{{ article.Text }}</p>
 				<div class="social-info">
 					<button class="likes-btn">
-                        <img src="{% static 'img/heart-outline.svg' %}" alt="" class="likes-icon" id="like-icon">
+						{% if user_like %}
+						<img src="{% static 'img/heart.svg' %}" alt="" class="likes-icon" id="like-icon">
+						{% else %}
+						<img src="{% static 'img/heart-outline.svg' %}" alt="" class="likes-icon" id="like-icon">
+						{% endif %}
 						<span class="likes-count" id="like-count">{{ likes }}</span>
 					</button>
 					<button class="views-btn">

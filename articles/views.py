@@ -73,12 +73,18 @@ def post_view(request, id):
 
     views = article.views.count()
     likes = article.like_set.count()
+    like = False
+
+    if request.user.is_authenticated:
+        if article.like_set.filter(user=request.user).exists():
+            like = True
 
     context = {
         'article': article,
         'views': views,
         'likes': likes,
-        'is_auth': request.user.is_authenticated
+        'is_auth': request.user.is_authenticated,
+        'user_like': like
     }
     return render(request, 'article.html', context)
 
