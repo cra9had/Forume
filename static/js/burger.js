@@ -60,3 +60,9 @@ $('.modal-close').click(function() {
 	$('.overlay').fadeOut();
 	$('body').removeClass('scroll-hidden');
 });
+
+$('.modal-close').click(function() {
+	$('.modal').removeClass('open')
+	$('.overlay').fadeOut();
+	$('body').removeClass('scroll-hidden');
+});

@@ -23,7 +23,7 @@
 					{% if is_auth == True %}
 					<form action="{% url 'articles:logout' %}" method="post">
 						{% csrf_token %}
-						<button class="login-btn">Выйти</button>
+						<button class="exit-btn">Выйти</button>
 					</form>
 					{% else %}
 					<button class="login-btn" id="login">Войти</button>

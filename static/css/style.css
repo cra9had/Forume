@@ -37,6 +37,17 @@ body {
 	align-items: center;
 }
 
+.exit-btn {
+	padding: 5px 25px;
+
+	border: none;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	color: #fff;
+	background-color: transparent;
+	cursor: pointer;
+}
+
 .login-btn {
 	padding: 5px 25px;
 
