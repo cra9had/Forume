@@ -43,12 +43,14 @@ function like() {
             if (data["status"] == "success") {
                 var liked = data["liked"];
                 var count = data["count"];
-                consv
                 if (liked == 1){
-                    document.getElementById("like-icon").name = "heart"
+                    $("#like-icon").attr("name", "heart");
+                    console.log("ф")
+                    document.getElementById("like-icon").className = "likes-icon-fill";
                 }
                 else {
-                    document.getElementById("like-icon").name = "heart-outline"
+                    $("#like-icon").attr("name", "heart-outline");
+                    document.getElementById("like-icon").className = "likes-icon";
                 }
 
                 document.getElementById("like-count").innerText = count;
