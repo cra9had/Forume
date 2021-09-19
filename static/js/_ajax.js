@@ -22,7 +22,8 @@ function login() {
         var data = JSON.parse(JSON.stringify(data));
         if (data) {
             if (data["status"] == "success") {
-                window.location.replace("/");
+                console.log(window.location.href);
+                window.location.replace(window.location.href);
             }
             else if (data["status"] == "error") {
                 alert(data["error_text"]);
