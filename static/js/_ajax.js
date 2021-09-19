@@ -43,6 +43,14 @@ function like() {
             if (data["status"] == "success") {
                 var liked = data["liked"];
                 var count = data["count"];
+                consv
+                if (liked == 1){
+                    document.getElementById("like-icon").name = "heart"
+                }
+                else {
+                    document.getElementById("like-icon").name = "heart-outline"
+                }
+
                 document.getElementById("like-count").innerText = count;
             }
             else if (data["status"] == "error") {
