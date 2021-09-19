@@ -32,6 +32,7 @@ def auth(request):
         return HttpResponseNotFound("<h1>Page does not exists ):</h1>")
 
 
+@csrf_exempt
 def post_like(request, id):
     if request.is_ajax():
         try:
@@ -44,11 +45,15 @@ def post_like(request, id):
             like = article.like_set.filter(user=user)
             if not like.exists():
                 article.like_set.create(user=user, article=article)
+                liked = 1
             else:
                 like.delete()
-            return JsonResponse({"status": "success", "count": article.like_set.count()})
+                liked = -1
+            return JsonResponse({"status": "success", "count": article.like_set.count(), "liked": liked})
         else:
             return JsonResponse({"status": "error", "error_text": "Auth is required", "error_code": 405})
+    else:
+        return HttpResponseNotFound("<h1>Page does not exists ):</h1>")
 
 
 def post_view(request, id):

@@ -42,13 +42,10 @@
 				<h3 class="article-title">{{ article.Title }}</h3>
 				<p class="article-content">{{ article.Text }}</p>
 				<div class="social-info">
-					<form action="{% url 'articles:post_like' article.id %}">
-						{% csrf_token %}
-						<button class="likes-btn">
-							<ion-icon name="heart-outline" class="likes-icon"></ion-icon>
-							<span class="likes-count">{{ likes }}</span>
-						</button>
-					</form>
+					<button class="likes-btn">
+						<ion-icon name="heart-outline" class="likes-icon"></ion-icon>
+						<span class="likes-count" id="like-count">{{ likes }}</span>
+					</button>
 					<button class="views-btn">
 						<ion-icon name="eye-outline" class="views-icon"></ion-icon>
 						<span class="views-count">{{ views }}</span>
