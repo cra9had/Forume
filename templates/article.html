@@ -43,10 +43,7 @@
 				<p class="article-content">{{ article.Text }}</p>
 				<div class="social-info">
 					<button class="likes-btn">
-						<!-- Кнопка не нажата -->
-                        <ion-icon name="heart-outline" class="likes-icon" id="like-icon"></ion-icon>
-                        <!-- Кнопка нажата -->
-                        <!-- <ion-icon name="heart" class="likes-icon-fill"></ion-icon> -->
+                        <img src="{% static 'img/heart-outline.svg' %}" alt="" class="likes-icon" id="like-icon">
 						<span class="likes-count" id="like-count">{{ likes }}</span>
 					</button>
 					<button class="views-btn">

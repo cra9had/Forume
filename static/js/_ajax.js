@@ -44,12 +44,12 @@ function like() {
                 var liked = data["liked"];
                 var count = data["count"];
                 if (liked == 1){
-                    $("#like-icon").attr("name", "heart");
+                    $("#like-icon").attr("src", "/static/img/heart.svg");
                     console.log("ф")
-                    document.getElementById("like-icon").className = "likes-icon-fill";
+                    document.getElementById("like-icon").className = "likes-icon";
                 }
                 else {
-                    $("#like-icon").attr("name", "heart-outline");
+                    $("#like-icon").attr("src", "/static/img/heart-outline.svg");
                     document.getElementById("like-icon").className = "likes-icon";
                 }
 
