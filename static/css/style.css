@@ -48,15 +48,10 @@ body {
 }
 
 .exit-btn {
-	padding: 5px 25px;
-
 	border: none;
-	border: 1px solid #fff;
-	border-radius: 5px;
 	color: #fff;
 	background-color: transparent;
 	cursor: pointer;
-	transition: 0.25s;
 }
 
 .exit-btn:hover {
@@ -367,8 +362,8 @@ height: 46px;
 	background: transparent;
     border: none;
     cursor: pointer;
-    width: 100%;
 	color: #000;
+	font: inherit;
 	font-weight: 500;
 	font-size: 14px;
 	opacity: 0.5;
@@ -493,6 +488,19 @@ height: 46px;
 .blog-content {
 	font-size: 16px;
 	font-weight: 400;
+}
+
+/* Просмотры и дата публикации */
+.blog-info {
+	margin-top: 20px;
+
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.blog-data {
+	margin-right: 30px;
 }
 
 /* Modal */

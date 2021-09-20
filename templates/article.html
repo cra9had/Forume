@@ -20,7 +20,7 @@
 						<li class="nav-list"><a href="#contacts" class="nav-link scrollto">Контакты</a></li>
 					</ul>
 				</nav>
-				{% if is_auth == True %}
+					{% if is_auth == True %}
 					<div class="header-user-bar" onclick="menuToggle();">
 					<img src="{% static 'img/avatar1.svg' %}" alt="user avatar" class="user-avatar">
 					<div class="user-name unselectable">{{ user.username }}</div>
@@ -124,5 +124,15 @@
 
 	<!-- <script type="text/javascript" src="js/sign.js"></script> -->
 	<script type="text/javascript" src="{% static 'js/burger.js' %}"></script>
+	<script>
+		function menuToggle() {
+			const toggleMenu = document.querySelector('.header-user-menu')
+			const toggleArrow = document.querySelector('.user-arrow')
+			const activeBar = document.querySelector('.header-user-bar')
+			toggleMenu.classList.toggle('active')
+			toggleArrow.classList.toggle('active')
+			activeBar.classList.toggle('active')
+		}
+	</script>
 </body>
 </html>
