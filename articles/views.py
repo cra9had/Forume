@@ -93,4 +93,4 @@ def post_view(request, id):
 def index(request):
     last_articles = Article.objects.order_by("-id")
     is_auth = request.user.is_authenticated
-    return render(request, "index.html", context={"articles": last_articles, "is_auth": is_auth})
+    return render(request, "index.html", context={"articles": last_articles, "is_auth": is_auth, "user": request.user})

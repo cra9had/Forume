@@ -20,17 +20,31 @@
 						<li class="nav-list"><a href="#contacts" class="nav-link scrollto">Контакты</a></li>
 					</ul>
 				</nav>
-				<div class="sign-wrap">
-					{% if is_auth == True %}
-					<form action="{% url 'articles:logout' %}" method="post">
-						{% csrf_token %}
-						<button class="login-btn">Выйти</button>
-					</form>
+				{% if is_auth == True %}
+					<div class="header-user-bar" onclick="menuToggle();">
+					<img src="{% static 'img/avatar1.svg' %}" alt="user avatar" class="user-avatar">
+					<div class="user-name unselectable">{{ user.username }}</div>
+					<div class="user-arrow">
+						<svg height="8" viewBox="0 0 12 8" width="12" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" clip-rule="evenodd" d="M2.16 2.3a.75.75 0 011.05-.14L6 4.3l2.8-2.15a.75.75 0 11.9 1.19l-3.24 2.5c-.27.2-.65.2-.92 0L2.3 3.35a.75.75 0 01-.13-1.05z" fill-rule="evenodd"></path></svg>
+					</div>
+				</div>
+				<div class="header-user-menu">
+					<ul class="user-menu-group">
+						<li class="user-menu-list"><img src="{% static 'img/profile.svg' %}" class="user-menu-ico"><a href="#" class="user-menu-link">Профиль</a></li>
+						<li class="user-menu-list"><img src="{% static 'img/settings.svg' %}" class="user-menu-ico"><a href="#" class="user-menu-link">Настройки</a></li>
+						<li class="user-menu-list"><img src="{% static 'img/donate.svg' %}" class="user-menu-ico"><a href="#" class="user-menu-link">Пополнить баланс</a></li>
+						<form action="{% url 'articles:logout' %}" method="post">
+							{% csrf_token %}
+						<li class="user-menu-list"><img src="{% static 'img/exit.svg' %}" class="user-menu-ico"><button class="user-menu-link">Выйти</button></li>
+						</form>
+					</ul>
+				</div>
 					{% else %}
+				<div class="sign-wrap">
 					<button class="login-btn" id="login">Войти</button>
 					<button class="registr-btn" id="registr">Регистрация</button>
-					{% endif %}
 				</div>
+					{% endif %}
 				<a href="#" class="menu-btn">
 					<span class="menu-btn-arr"></span>
 				</a>
