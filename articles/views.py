@@ -84,7 +84,8 @@ def post_view(request, id):
         'views': views,
         'likes': likes,
         'is_auth': request.user.is_authenticated,
-        'user_like': like
+        'user_like': like,
+        'user': request.user,
     }
     return render(request, 'article.html', context)
 

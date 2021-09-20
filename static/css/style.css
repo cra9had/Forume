@@ -149,9 +149,10 @@ body {
 }
 
 .header-inside {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
+display: flex;
+justify-content: flex-start;
+align-items: center;
+height: 46px;
 }
 
 .header-logo {
@@ -363,6 +364,10 @@ body {
 .user-menu-link {
 	display: inline-block;
 	text-decoration: none;
+	background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 100%;
 	color: #000;
 	font-weight: 500;
 	font-size: 14px;
