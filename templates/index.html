@@ -66,7 +66,7 @@
 				<p class="blog-content">{{ article.ShortText }}... <a href="{% url 'articles:id' article.id %}">Читать ещё ></a></p>
 				<!-- Просмотры и дата публикации -->
 				<div class="blog-info">
-					<time class="blog-data" datetime="2021-08-19">19 августа 2021 года</time>
+					<time class="blog-data">{{ article.PublicDate.date }}</time>
 					<span class="views-count">{{ views }}</span>
 					<ion-icon name="eye-outline" class="views-icon"></ion-icon>
 				</div>
