@@ -21,11 +21,11 @@ function login() {
     }).done(function(data) {
         var data = JSON.parse(JSON.stringify(data));
         if (data) {
-            if (data["status"] == "success") {
+            if (data["status"] === "success") {
                 console.log(window.location.href);
                 window.location.replace(window.location.href);
             }
-            else if (data["status"] == "error") {
+            else if (data["status"] === "error") {
                 alert(data["error_text"]);
             }
 
@@ -33,6 +33,31 @@ function login() {
     });
 }
 
+function register() {
+    let username = document.getElementById("register-login").value;
+    let password1 = document.getElementById("register-password").value;
+    let password2 = document.getElementById("register-password-confirm").value;
+    $.ajax({
+        url: "/register",
+        type: "post",
+        data: {
+            username: username,
+            password1: password1,
+            password2: password2
+        }
+    }).done(function(response) {
+        let data = JSON.parse(JSON.stringify(response));
+        if (data) {
+            if (data["status"] === "success") {
+                console.log(window.location.href);
+                window.location.replace(window.location.href);
+            }
+            else if (data["status"] === "error") {
+                alert(data);
+            }
+        }
+    });
+}
 
 function like() {
     $.ajax({
@@ -78,5 +103,4 @@ function like() {
 }
 
 
-$('.modal-login-btn').click(login);
 $('.likes-btn').click(like);

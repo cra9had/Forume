@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, JsonResponse
-from articles.models import Article, Ip
+
+from articles.forms import RegistrationForm
+from articles.models import Article, AnonimReader
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -30,6 +32,37 @@ def auth(request):
             return JsonResponse({"status": "error", "error_text": "Логин или пароль неверны."})
     else:
         return HttpResponseNotFound("<h1>Page does not exists ):</h1>")
+
+
+@csrf_exempt
+def read_article(request, id: int):
+    if request.method == "POST":
+        device_id = request.POST.get("device_id")
+        ip = get_client_ip(request)
+        reader, _ = AnonimReader.objects.get_or_create(device_id=device_id)
+        reader.ip = ip
+        reader.save()
+        try:
+            article = Article.objects.get(id=id)
+        except Article.DoesNotExist:
+            return JsonResponse({"status": "error", "error_text": "Article does not exist yet...", "error_code": 404})
+        article.views.add(reader)
+        return JsonResponse({"status": "success"})
+
+
+
+@csrf_exempt
+def register(request):
+    if request.method == "POST" and request.is_ajax():
+        user_form = RegistrationForm(request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+            login(request, user)
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse(
+                {'status': 'error', 'error_text': user_form.errors})
 
 
 @csrf_exempt
@@ -62,15 +95,15 @@ def post_view(request, id):
     except Article.DoesNotExist:
         return HttpResponseNotFound("<h1>Article does not exist yet ):</h1>")
 
-    ip = get_client_ip(request)
-
-    if Ip.objects.filter(ip=ip).exists():
-        article.views.add(Ip.objects.get(ip=ip))
-    else:
-        Ip.objects.create(ip=ip)
-        article.views.add(Ip.objects.get(ip=ip))
-        article.views.add(Ip.objects.get(ip=ip))
-
+    # ip = get_client_ip(request)
+    #
+    # if Ip.objects.filter(ip=ip).exists():
+    #     article.views.add(Ip.objects.get(ip=ip))
+    # else:
+    #     Ip.objects.create(ip=ip)
+    #     article.views.add(Ip.objects.get(ip=ip))
+    #     article.views.add(Ip.objects.get(ip=ip))
+    #
     views = article.views.count()
     likes = article.like_set.count()
     like = False
@@ -81,7 +114,7 @@ def post_view(request, id):
 
     context = {
         'article': article,
-        'views': views,
+        'views': views + 1,
         'likes': likes,
         'is_auth': request.user.is_authenticated,
         'user_like': like,

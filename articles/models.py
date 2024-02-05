@@ -3,11 +3,13 @@ from django.conf import settings
 from django.utils import timezone
 
 
-class Ip(models.Model):
+class AnonimReader(models.Model):
+    read_date = models.DateTimeField(auto_now_add=True)
     ip = models.CharField(max_length=100)
+    device_id = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return self.ip
+        return self.device_id
 
 
 class Article(models.Model):
@@ -15,7 +17,7 @@ class Article(models.Model):
     article_subtitle = models.CharField(name="Subtitle", max_length=50)
     article_text = models.TextField(name="Text")
     short_text = models.CharField(name="ShortText", max_length=140)
-    views = models.ManyToManyField(Ip, related_name="Views", blank=True)
+    views = models.ManyToManyField(AnonimReader, blank=True)
     pub_date = models.DateTimeField(name="PublicDate", default=timezone.now())
 
 
